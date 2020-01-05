@@ -9,7 +9,7 @@ class PokeSearch extends Component {
       searchTerm: '',
       result: '',
       error: false,
-      types: ['Search By Type'],
+      types: [],
     };
   }
   async componentDidMount() {
@@ -45,6 +45,13 @@ class PokeSearch extends Component {
       error: false,
     });
   };
+
+  getRandomPokemon = () => {
+    const { results } = this.state
+    this.setState({
+      result: results[Math.floor(Math.random() * results.length)]
+    })
+  }
   render() {
     const { result, error } = this.state;
     console.log(result);
@@ -65,19 +72,22 @@ class PokeSearch extends Component {
         <h1>Poké-Search</h1>
         {result ? (
           <div>
+
+      <div style={{
+        textAlign: 'center',
+      }}>
             <img
-              style={{
-                height: '150px',
-              }}
+              style={{height: '100px'}}
               src={result[0]['sprites'].animated}
               alt='gif'
             />
-            <div>
+
 
             </div>
             <table
             style={{
-              textAlign: 'left'
+              textAlign: 'left',
+              margin: '10px'
             }}>
                <tr>
                 <th>No.</th>
@@ -143,14 +153,23 @@ class PokeSearch extends Component {
           >
             Search
           </button>
-        </form>
-        <select>
+          <select
+        style={{
+          width: '100%',
+          marginTop: '4px',
+          fontSize: '1.5rem',
+          textAlign: 'center',
+          display: 'block',
+        }}
+        >
           {this.state.types.map(({ name }) => (
             <option name={name} value={name}>
               {name}
             </option>
           ))}
         </select>
+        </form>
+
       </div>
     );
   }
