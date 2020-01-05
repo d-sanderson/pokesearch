@@ -162,9 +162,9 @@ class PokeSearch extends Component {
               textAlign: 'center',
             }}
           >
-            <h1>Learn about your favorite Pokemon</h1>
+            <h3>Learn about your favorite Pokemon</h3>
             <img
-              height='350px'
+              height='200px'
               src='https://cdn.dribbble.com/users/815728/screenshots/4046362/ball.gif'
               alt='loading'
             />
