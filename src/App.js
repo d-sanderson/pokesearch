@@ -1,10 +1,10 @@
 import React from 'react';
-import Pokedex from './components/Pokedex'
+import PokeSearch from './components/PokeSearch'
 
 function App() {
   return (
     <div className="App">
-      <Pokedex/>
+      <PokeSearch/>
     </div>
   );
 }
