@@ -29,6 +29,7 @@ class PokeSearch extends Component {
     if (result.length === 0) {
       this.setState({
         error: true,
+        result: ''
       });
       return;
     }
@@ -49,9 +50,9 @@ class PokeSearch extends Component {
           fontFamily: 'avenir',
           justifyContent: 'center',
           alignItems: 'center',
-          height: '500px',
+          height: '100vh',
           border: '2px solid black',
-          backgroundColor: 'red',
+          backgroundColor: 'rgb(65,65,65)',
         }}
       >
         <form>
@@ -73,7 +74,7 @@ class PokeSearch extends Component {
           </button>
         </form>
         <div>
-          {result && (
+          {result ? (
             <div>
               <img
                 style={{
@@ -96,7 +97,8 @@ class PokeSearch extends Component {
               <div>Special Attack: {result[0].sp_atk}</div>
               <div>Special Defense: {result[0].sp_def}</div>
             </div>
-          )}
+          ):
+          <img src="https://cdn.dribbble.com/users/815728/screenshots/4046362/ball.gif" alt="loading"/>}
         </div>
       </div>
     );
