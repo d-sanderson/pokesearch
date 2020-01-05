@@ -10,13 +10,13 @@ class PokeSearch extends Component {
       result: '',
       error: false,
       types: [],
+      type: ''
     };
   }
   async componentDidMount() {
     const response = await fetch(`https://pokeapi.co/api/v2/type`);
     const types = await response.json();
     this.setState({ types: types.results });
-    console.log(this.state.types);
   }
 
   handleChange = e => {
@@ -28,9 +28,9 @@ class PokeSearch extends Component {
 
   searchByName = e => {
     e.preventDefault();
-    let { searchTerm } = this.state;
+    let { searchTerm, results } = this.state;
 
-    let result = this.state.results.filter(
+    let result = results.filter(
       ({ name }) => name.toLowerCase() === searchTerm.toLowerCase()
     );
     if (result.length === 0) {
@@ -46,15 +46,24 @@ class PokeSearch extends Component {
     });
   };
 
-  getRandomPokemon = () => {
-    const { results } = this.state
-    this.setState({
-      result: results[Math.floor(Math.random() * results.length)]
+  getRandomPokemon = (e) => {
+    e.preventDefault()
+    let { results } = this.state;
+    let randomNum = Math.floor(Math.random() * 964)
+    fetch(`https://pokeapi.co/api/v2/pokemon/${randomNum}`).then((response) => {
+      return response.json();
     })
-  }
+    .then((pokemon) => {
+      let result = results.filter(
+        ({ name }) => name.toLowerCase() === pokemon.name.toLowerCase()
+      );
+      this.setState({
+        result
+      })
+  })
+}
   render() {
     const { result, error } = this.state;
-    console.log(result);
     return (
       <div
         style={{
@@ -89,10 +98,9 @@ class PokeSearch extends Component {
               textAlign: 'left',
               margin: '10px'
             }}>
-               <tr>
+
                 <th>No.</th>
                 <td>#{result[0]['national_number']}</td>
-              </tr>
               <tr>
                 <th>Type</th>
                 {result[0].type.map(t => (
@@ -153,7 +161,22 @@ class PokeSearch extends Component {
           >
             Search
           </button>
+          <button
+            style={{
+              width: '100%',
+              marginTop: '4px',
+              fontSize: '1.5rem',
+              textAlign: 'center',
+              display: 'block',
+            }}
+            value='Search'
+            onClick={this.getRandomPokemon}
+          >
+            Random
+          </button>
           <select
+        onChange={this.handleChange}
+        name='type'
         style={{
           width: '100%',
           marginTop: '4px',
@@ -162,8 +185,8 @@ class PokeSearch extends Component {
           display: 'block',
         }}
         >
-          {this.state.types.map(({ name }) => (
-            <option name={name} value={name}>
+          {this.state.types.map(({ name }, index) => (
+            <option key={index} value={name}>
               {name}
             </option>
           ))}
