@@ -81,7 +81,7 @@ class PokeSearch extends Component {
           ):
           <img height='150px' src="https://cdn.dribbble.com/users/815728/screenshots/4046362/ball.gif" alt="loading"/>}
         <form>
-          <h1>PokeSearch</h1>
+          <h1>PokéSearch</h1>
           <input
             name='pokemon'
             placeholder='Search for a pokemon'
