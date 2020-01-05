@@ -6,10 +6,17 @@ class PokeSearch extends Component {
     super(props);
     this.state = {
       results: pokemons.results,
-      pokemon: '',
+      searchTerm: '',
       result: '',
       error: false,
+      types: ['Search By Type'],
     };
+  }
+  async componentDidMount() {
+    const response = await fetch(`https://pokeapi.co/api/v2/type`);
+    const types = await response.json();
+    this.setState({ types: types.results });
+    console.log(this.state.types);
   }
 
   handleChange = e => {
@@ -21,10 +28,10 @@ class PokeSearch extends Component {
 
   searchByName = e => {
     e.preventDefault();
-    let { pokemon } = this.state;
+    let { searchTerm } = this.state;
 
     let result = this.state.results.filter(
-      ({ name }) => name.toLowerCase() === pokemon.toLowerCase()
+      ({ name }) => name.toLowerCase() === searchTerm.toLowerCase()
     );
     if (result.length === 0) {
       this.setState({
@@ -60,28 +67,54 @@ class PokeSearch extends Component {
           <div>
             <img
               style={{
-                margin: '50px 0 0 0',
                 height: '150px',
               }}
               src={result[0]['sprites'].animated}
               alt='gif'
             />
-            <div>#{result[0]['national_number']}</div>
             <div>
-              {result[0].type.map(t => (
-                <div>{t}</div>
-              ))}
+
             </div>
-            <div>hp: {result[0].hp}</div>
-            <div>Attack: {result[0].attack}</div>
-            <div>Speed: {result[0].speed}</div>
-            <div>Defense: {result[0].defense}</div>
-            <div>Special Attack: {result[0].sp_atk}</div>
-            <div>Special Defense: {result[0].sp_def}</div>
+            <table
+            style={{
+              textAlign: 'left'
+            }}>
+               <tr>
+                <th>No.</th>
+                <td>#{result[0]['national_number']}</td>
+              </tr>
+              <tr>
+                <th>Type</th>
+                {result[0].type.map(t => (
+                <td>{t}</td>
+              ))}
+              </tr>
+              <tr>
+                <th>HP</th>
+                <td>{result[0].hp}</td>
+              </tr>
+              <tr>
+                <th>Attack</th>
+                <td>{result[0].attack}</td>
+              </tr>
+              <tr>
+                <th>Speed</th>
+                <td>{result[0].speed}</td>
+                </tr>
+                <tr>
+                  <th>Defense</th>
+                <td>{result[0].defense}</td>
+                </tr>
+                <tr>  <th>Special Attack</th>  <td>{result[0].sp_atk}</td></tr>
+             <tr>
+               <th>Special Defense</th>
+                <td>{result[0].sp_def}</td>
+              </tr>
+            </table>
           </div>
         ) : (
           <img
-            height='150px'
+            height='200px'
             src='https://cdn.dribbble.com/users/815728/screenshots/4046362/ball.gif'
             alt='loading'
           />
@@ -89,12 +122,20 @@ class PokeSearch extends Component {
         {error && <div>Pokemon does not exist.</div>}
         <form>
           <input
-            name='pokemon'
-            placeholder='Search for a pokemon'
+            style={{
+              fontFamily: 'avenir',
+              fontSize: '1.5rem',
+            }}
+            name='searchTerm'
+            placeholder='Search for a Pokémon!'
             onChange={this.handleChange}
           />
           <button
             style={{
+              width: '100%',
+              marginTop: '4px',
+              fontSize: '1.5rem',
+              textAlign: 'center',
               display: 'block',
             }}
             value='Search'
@@ -103,6 +144,13 @@ class PokeSearch extends Component {
             Search
           </button>
         </form>
+        <select>
+          {this.state.types.map(({ name }) => (
+            <option name={name} value={name}>
+              {name}
+            </option>
+          ))}
+        </select>
       </div>
     );
   }
