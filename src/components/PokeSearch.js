@@ -8,6 +8,7 @@ class PokeSearch extends Component {
       results: pokemons.results,
       pokemon: '',
       result: '',
+      error: false,
     };
   }
 
@@ -26,14 +27,18 @@ class PokeSearch extends Component {
       ({ name }) => name.toLowerCase() === pokemon.toLowerCase()
     );
     if (result.length === 0) {
+      this.setState({
+        error: true,
+      });
       return;
     }
     this.setState({
       result,
+      error: false,
     });
   };
   render() {
-    const { result } = this.state;
+    const { result, error } = this.state;
     console.log(result);
     return (
       <div
@@ -56,6 +61,7 @@ class PokeSearch extends Component {
             placeholder='Search for a pokemon'
             onChange={this.handleChange}
           />
+          {error && <div>Pokemon does not exist.</div>}
           <button
             style={{
               display: 'block',
@@ -89,7 +95,6 @@ class PokeSearch extends Component {
               <div>Defense: {result[0].defense}</div>
               <div>Special Attack: {result[0].sp_atk}</div>
               <div>Special Defense: {result[0].sp_def}</div>
-
             </div>
           )}
         </div>
@@ -97,6 +102,5 @@ class PokeSearch extends Component {
     );
   }
 }
-
 
 export default PokeSearch;
