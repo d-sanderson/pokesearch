@@ -46,7 +46,6 @@ class PokeSearch extends Component {
           alignItems: 'center',
           height: '500px',
           border: '2px solid black',
-          margin: '0% 33%',
           backgroundColor: 'red',
         }}
       >
