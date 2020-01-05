@@ -10,7 +10,8 @@ class PokeSearch extends Component {
       result: '',
       error: false,
       types: [],
-      type: ''
+      selectedType: '',
+      pokemonsByType: null,
     };
   }
   async componentDidMount() {
@@ -46,24 +47,37 @@ class PokeSearch extends Component {
     });
   };
 
-  getRandomPokemon = (e) => {
-    e.preventDefault()
+  getRandomPokemon = e => {
+    e.preventDefault();
     let { results } = this.state;
-    let randomNum = Math.floor(Math.random() * 964)
-    fetch(`https://pokeapi.co/api/v2/pokemon/${randomNum}`).then((response) => {
-      return response.json();
-    })
-    .then((pokemon) => {
-      let result = results.filter(
-        ({ name }) => name.toLowerCase() === pokemon.name.toLowerCase()
-      );
-      this.setState({
-        result
+    let randomNum = Math.floor(Math.random() * 964);
+    fetch(`https://pokeapi.co/api/v2/pokemon/${randomNum}`)
+      .then(response => {
+        return response.json();
       })
-  })
-}
+      .then(pokemon => {
+        let result = results.filter(
+          ({ name }) => name.toLowerCase() === pokemon.name.toLowerCase()
+        );
+        this.setState({
+          result,
+        });
+      });
+  };
+
+  getPokemonsByType = () => {
+    let { results, selectedType } = this.state;
+    let pokemonsByType = results.filter(
+      ({ type }) =>
+        type[0].toLowerCase() === selectedType ||
+        (type[1] && type[1].toLowerCase() === selectedType)
+    );
+    this.setState({
+      pokemonsByType,
+    });
+  };
   render() {
-    const { result, error } = this.state;
+    const { result, error, types, pokemonsByType } = this.state;
     return (
       <div
         style={{
@@ -73,7 +87,7 @@ class PokeSearch extends Component {
           fontFamily: 'avenir',
           justifyContent: 'center',
           alignItems: 'center',
-          height: '100vh',
+          height: 'auto',
           border: '2px solid black',
           backgroundColor: 'rgb(65,65,65)',
         }}
@@ -81,62 +95,80 @@ class PokeSearch extends Component {
         <h1>Poké-Search</h1>
         {result ? (
           <div>
-
-      <div style={{
-        textAlign: 'center',
-      }}>
-            <img
-              style={{height: '100px'}}
-              src={result[0]['sprites'].animated}
-              alt='gif'
-            />
-
-<h1>{result[0].name}</h1>
+            <div
+              style={{
+                textAlign: 'center',
+              }}
+            >
+              <img
+                style={{ height: '100px' }}
+                src={result[0]['sprites'].animated}
+                alt='gif'
+              />
             </div>
 
             <table
-            style={{
-              textAlign: 'left',
-              margin: '10px'
-            }}>
-
-                <th>No.</th>
-                <td>#{result[0]['national_number']}</td>
-              <tr>
-                <th>Type</th>
-                {result[0].type.map(t => (
-                <td>{t}</td>
-              ))}
-              </tr>
-              <tr>
-                <th>HP</th>
-                <td>{result[0].hp}</td>
-              </tr>
-              <tr>
-                <th>Attack</th>
-                <td>{result[0].attack}</td>
-              </tr>
-              <tr>
-                <th>Speed</th>
-                <td>{result[0].speed}</td>
+              style={{
+                textAlign: 'left',
+                margin: '10px',
+              }}
+            >
+              <thead style={{ fontWeight: 'bolder' }}></thead>
+              <tbody>
+                <tr>
+                  <th>Name</th>
+                  <td>#{result[0].name}</td>
+                </tr>
+                <tr>
+                  <th>No.</th>
+                  <td>#{result[0]['national_number']}</td>
+                </tr>
+                <tr>
+                  <th>Type</th>
+                  {result[0].type.map((t, index) => (
+                    <td key={index}>{t}</td>
+                  ))}
+                </tr>
+                <tr>
+                  <th>HP</th>
+                  <td>{result[0].hp}</td>
+                </tr>
+                <tr>
+                  <th>Attack</th>
+                  <td>{result[0].attack}</td>
+                </tr>
+                <tr>
+                  <th>Speed</th>
+                  <td>{result[0].speed}</td>
                 </tr>
                 <tr>
                   <th>Defense</th>
-                <td>{result[0].defense}</td>
+                  <td>{result[0].defense}</td>
                 </tr>
-                <tr>  <th>Special Attack</th>  <td>{result[0].sp_atk}</td></tr>
-             <tr>
-               <th>Special Defense</th>
-                <td>{result[0].sp_def}</td>
-              </tr>
+                <tr>
+                  <th>Special Attack</th>
+                  <td>{result[0].sp_atk}</td>
+                </tr>
+                <tr>
+                  <th>Special Defense</th>
+                  <td>{result[0].sp_def}</td>
+                </tr>
+              </tbody>
             </table>
           </div>
         ) : (
-          <img
-            height='200px'
-            src='https://cdn.dribbble.com/users/815728/screenshots/4046362/ball.gif'
-            alt='loading'
-          />
+          <div
+            style={{
+              textAlign: 'center',
+            }}
+          >
+            <h1>Learn about your favorite Pokemon</h1>
+            <img
+              height='350px'
+              src='https://cdn.dribbble.com/users/815728/screenshots/4046362/ball.gif'
+              alt='loading'
+            />
+          </div>
         )}
         {error && <div>Pokemon does not exist.</div>}
         <form>
@@ -176,24 +208,71 @@ class PokeSearch extends Component {
             Random
           </button>
           <select
-        onChange={this.handleChange}
-        name='type'
-        style={{
-          width: '100%',
-          marginTop: '4px',
-          fontSize: '1.5rem',
-          textAlign: 'center',
-          display: 'block',
-        }}
-        >
-          {this.state.types.map(({ name }, index) => (
-            <option key={index} value={name}>
-              {name}
-            </option>
-          ))}
-        </select>
+            onChange={e => {
+              this.handleChange(e);
+              this.getPokemonsByType();
+            }}
+            name='selectedType'
+            style={{
+              width: '100%',
+              marginTop: '4px',
+              fontSize: '1.5rem',
+              textAlign: 'center',
+              display: 'block',
+            }}
+          >
+            {types.map(({ name }, index) => (
+              <option key={index} value={name}>
+                {name}
+              </option>
+            ))}
+          </select>
         </form>
-
+        {pokemonsByType &&
+          pokemonsByType.map((el, index) => (
+            <div key={index}>
+              <img src={el.sprites.normal} alt='pic' />
+              <table
+                style={{
+                  textAlign: 'left',
+                }}
+              >
+                <tbody>
+                  <tr>
+                    <th>{el.name}</th>
+                  </tr>
+                  <tr>
+                    <th>No.</th>
+                    <td>#{el['national_number']}</td>
+                  </tr>
+                  <tr>
+                    <th>HP</th>
+                    <td>{el.hp}</td>
+                  </tr>
+                  <tr>
+                    <th>Attack</th>
+                    <td>{el.attack}</td>
+                  </tr>
+                  <tr>
+                    <th>Speed</th>
+                    <td>{el.speed}</td>
+                  </tr>
+                  <tr>
+                    <th>Defense</th>
+                    <td>{el.defense}</td>
+                  </tr>
+                  <tr>
+                    <th>Special Attack</th>
+                    <td>{el.sp_atk}</td>
+                  </tr>
+                  <tr>
+                    <th>Special Defense</th>
+                    <td>{el.sp_def}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          ))}
       </div>
     );
   }
