@@ -91,8 +91,9 @@ class PokeSearch extends Component {
               alt='gif'
             />
 
-
+<h1>{result[0].name}</h1>
             </div>
+
             <table
             style={{
               textAlign: 'left',
