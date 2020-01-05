@@ -55,31 +55,12 @@ class PokeSearch extends Component {
           backgroundColor: 'rgb(65,65,65)',
         }}
       >
-        <form>
-          <h1>PokeSearch</h1>
-          <input
-            name='pokemon'
-            placeholder='Search for a pokemon'
-            onChange={this.handleChange}
-          />
-          {error && <div>Pokemon does not exist.</div>}
-          <button
-            style={{
-              display: 'block',
-            }}
-            value='Search'
-            onClick={this.searchByName}
-          >
-            Search
-          </button>
-        </form>
-        <div>
-          {result ? (
+        {result ? (
             <div>
               <img
                 style={{
                   margin: '50px 0 0 0',
-                  height: '75px',
+                  height: '150px',
                 }}
                 src={result[0]['sprites'].animated}
                 alt='gif'
@@ -98,8 +79,25 @@ class PokeSearch extends Component {
               <div>Special Defense: {result[0].sp_def}</div>
             </div>
           ):
-          <img src="https://cdn.dribbble.com/users/815728/screenshots/4046362/ball.gif" alt="loading"/>}
-        </div>
+          <img height='150px' src="https://cdn.dribbble.com/users/815728/screenshots/4046362/ball.gif" alt="loading"/>}
+        <form>
+          <h1>PokeSearch</h1>
+          <input
+            name='pokemon'
+            placeholder='Search for a pokemon'
+            onChange={this.handleChange}
+          />
+          {error && <div>Pokemon does not exist.</div>}
+          <button
+            style={{
+              display: 'block',
+            }}
+            value='Search'
+            onClick={this.searchByName}
+          >
+            Search
+          </button>
+        </form>
       </div>
     );
   }
