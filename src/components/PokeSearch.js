@@ -225,7 +225,7 @@ class PokeSearch extends Component {
         {pokemonsByType &&
           pokemonsByType.map((el, index) => (
             <div key={index}>
-              <img src={el.sprites.normal} alt='pic' />
+              <ImageWithStatusText imageUrl={el.sprites.normal} alt='pic' />
               <table
                 style={{
                   textAlign: 'left',
