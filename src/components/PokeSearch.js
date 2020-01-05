@@ -49,20 +49,20 @@ class PokeSearch extends Component {
 
   getRandomPokemon = e => {
     e.preventDefault();
+
     let { results } = this.state;
-    let randomNum = Math.floor(Math.random() * 964);
-    fetch(`https://pokeapi.co/api/v2/pokemon/${randomNum}`)
-      .then(response => {
-        return response.json();
-      })
-      .then(pokemon => {
+    const names = results.map(el => el.name)
+    console.log(names)
+    let randomNum = Math.floor(Math.random() * names.length);
+
+    let randomPokemon = names[randomNum]
         let result = results.filter(
-          ({ name }) => name.toLowerCase() === pokemon.name.toLowerCase()
+          ({ name }) => name.toLowerCase() === randomPokemon.toLowerCase()
         );
         this.setState({
           result,
         });
-      });
+
   };
 
   getPokemonsByType = () => {
