@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import pokemons from 'pokemons';
-
+import ImageWithStatusText from './ImageWithStatusText'
 class PokeSearch extends Component {
   constructor(props) {
     super(props);
@@ -49,10 +49,8 @@ class PokeSearch extends Component {
 
   getRandomPokemon = e => {
     e.preventDefault();
-
     let { results } = this.state;
     const names = results.map(el => el.name)
-    console.log(names)
     let randomNum = Math.floor(Math.random() * names.length);
 
     let randomPokemon = names[randomNum]
@@ -100,11 +98,7 @@ class PokeSearch extends Component {
                 textAlign: 'center',
               }}
             >
-              <img
-                style={{ height: '100px' }}
-                src={result[0]['sprites'].animated}
-                alt='gif'
-              />
+              <ImageWithStatusText imageUrl={result[0]['sprites'].animated}/>
             </div>
 
             <table
