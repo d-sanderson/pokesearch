@@ -76,7 +76,7 @@ class PokeSearch extends Component {
           display: 'flex',
           color: 'white',
           flexDirection: 'column',
-          fontFamily: 'avenir',
+          fontFamily: 'Press Start 2P',
           justifyContent: 'center',
           alignItems: 'center',
           height: 'auto',
@@ -162,7 +162,6 @@ class PokeSearch extends Component {
         <form>
           <input
             style={{
-              fontFamily: 'avenir',
               fontSize: '1.5rem',
             }}
             name='searchTerm'
