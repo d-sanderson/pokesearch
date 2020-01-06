@@ -1,6 +1,6 @@
 import React from 'react';
 import PokeSearch from './components/PokeSearch'
-import './App.css'
+import './index.css'
 
 function App() {
   return (

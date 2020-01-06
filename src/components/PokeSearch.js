@@ -84,7 +84,7 @@ class PokeSearch extends Component {
           backgroundColor: 'rgb(65,65,65)',
         }}
       >
-        <h1>Poké-Search</h1>
+        <p>Poké-Search</p>
         {result ? (
           <div>
             <div
@@ -99,9 +99,9 @@ class PokeSearch extends Component {
               style={{
                 textAlign: 'left',
                 margin: '10px',
+                fontSize: '.7rem'
               }}
             >
-              <thead style={{ fontWeight: 'bolder' }}></thead>
               <tbody>
                 <tr>
                   <th>Name</th>
@@ -150,7 +150,7 @@ class PokeSearch extends Component {
               textAlign: 'center',
             }}
           >
-            <h3>Learn about your favorite Pokemon</h3>
+            <p>Learn about your favorite Pokemon</p>
             <img
               height='200px'
               src='https://cdn.dribbble.com/users/815728/screenshots/4046362/ball.gif'
@@ -162,7 +162,9 @@ class PokeSearch extends Component {
         <form>
           <input
             style={{
-              fontSize: '1.5rem',
+              fontSize: '.75rem',
+              width: '100%',
+              textAlign: 'center'
             }}
             name='searchTerm'
             placeholder='Search for a Pokémon!'
@@ -171,8 +173,8 @@ class PokeSearch extends Component {
           <button
             style={{
               width: '100%',
-              marginTop: '4px',
-              fontSize: '1.5rem',
+              margin: '10px 0',
+              fontSize: '1.1rem',
               textAlign: 'center',
               display: 'block',
             }}
@@ -184,8 +186,8 @@ class PokeSearch extends Component {
           <button
             style={{
               width: '100%',
-              marginTop: '4px',
-              fontSize: '1.5rem',
+              margin: '10px 0',
+              fontSize: '1.1rem',
               textAlign: 'center',
               display: 'block',
             }}
@@ -194,6 +196,7 @@ class PokeSearch extends Component {
           >
             Random
           </button>
+          <label>Get Pokemons by type:</label>
           <select
             onChange={e => {
               this.handleChange(e);
@@ -202,10 +205,10 @@ class PokeSearch extends Component {
             name='selectedType'
             style={{
               width: '100%',
-              marginTop: '4px',
-              fontSize: '1.5rem',
-              textAlign: 'center',
+              margin: '10px 0',
+              fontSize: '1.1rem',
               display: 'block',
+
             }}
           >
             {types.map(( name, index) => (
@@ -222,6 +225,7 @@ class PokeSearch extends Component {
               <table
                 style={{
                   textAlign: 'left',
+                  fontSize: '.7rem'
                 }}
               >
                 <tbody>
