@@ -9,15 +9,9 @@ class PokeSearch extends Component {
       searchTerm: '',
       result: '',
       error: false,
-      types: [],
-      selectedType: '',
+      types: ['Normal', 'Fighting', 'Flying', 'Poison', 'Ground', 'Rock', 'Bug', 'Ghost', 'Steel', 'Fire', 'Grass', 'Water', 'Electric', 'Psychic', 'Ice', 'Dragon', 'Dark', 'Fairy'],
       pokemonsByType: null,
     };
-  }
-  async componentDidMount() {
-    const response = await fetch(`https://pokeapi.co/api/v2/type`);
-    const types = await response.json();
-    this.setState({ types: types.results });
   }
 
   handleChange = e => {
@@ -68,7 +62,7 @@ class PokeSearch extends Component {
     let pokemonsByType = results.filter(
       ({ type }) =>
         type[0].toLowerCase() === selectedType ||
-        (type[1] && type[1].toLowerCase() === selectedType)
+        (type[1] && type[1] === selectedType)
     );
     this.setState({
       pokemonsByType,
@@ -215,7 +209,7 @@ class PokeSearch extends Component {
               display: 'block',
             }}
           >
-            {types.map(({ name }, index) => (
+            {types.map(( name, index) => (
               <option key={index} value={name}>
                 {name}
               </option>
