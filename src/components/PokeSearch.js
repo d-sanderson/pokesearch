@@ -67,6 +67,7 @@ class PokeSearch extends Component {
     this.setState({
       result,
       error: false,
+      pokemonsByType: null,
     });
   };
 

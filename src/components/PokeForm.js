@@ -12,7 +12,7 @@ const PokeForm = (props) => {
         }}
         name='searchTerm'
         placeholder='Search for a Pokémon!'
-        onClick={handleChange}
+        onChange={handleChange}
       />
       <button
         style={{
