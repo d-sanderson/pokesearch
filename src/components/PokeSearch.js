@@ -80,9 +80,10 @@ class PokeSearch extends Component {
     }
   };
 
-  getPokemonsByType = () => {
-    const { results, selectedType } = {...this.state};
-    const lcSelectedType = selectedType.toLowerCase();
+  getPokemonsByType = (e) => {
+    const { results } = {...this.state};
+    const lcSelectedType = e.target.value.toLowerCase();
+    console.log(lcSelectedType)
     let pokemonsByType = results.filter(({ type }) => {
     if(type[0] !== undefined && type[1] !== undefined) {
       return (type[0].toLowerCase() === lcSelectedType || type[1].toLowerCase() === lcSelectedType)
@@ -186,9 +187,9 @@ class PokeSearch extends Component {
             }}
           >
             <p>Learn about your favorite Pokemon</p>
-            <img
+            <ImageWithStatusText
               height='200px'
-              src='https://cdn.dribbble.com/users/815728/screenshots/4046362/ball.gif'
+              imageUrl='https://cdn.dribbble.com/users/815728/screenshots/4046362/ball.gif'
               alt='loading'
             />
           </div>
@@ -213,7 +214,7 @@ class PokeSearch extends Component {
             }}
             name='searchTerm'
             placeholder='Search for a Pokémon!'
-            onChange={this.handleChange}
+            onClick={this.handleChange}
           />
           <button
             style={{
@@ -245,8 +246,9 @@ class PokeSearch extends Component {
           <select
             onChange={e => {
               this.handleChange(e);
-              this.getPokemonsByType();
+              this.getPokemonsByType(e);
             }}
+
             name='selectedType'
             style={{
               width: '100%',
