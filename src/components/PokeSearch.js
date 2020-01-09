@@ -45,7 +45,7 @@ class PokeSearch extends Component {
 
   searchByName = e => {
     e.preventDefault();
-    let { searchTerm, results } = this.state;
+    let { searchTerm, results } = {...this.state};
 
     let result = results.filter(
       ({ name }) => name.toLowerCase() === searchTerm.toLowerCase()
@@ -54,6 +54,7 @@ class PokeSearch extends Component {
       this.setState({
         error: true,
         result: '',
+        pokemonsByType: null,
       });
       return;
     }
@@ -87,13 +88,9 @@ class PokeSearch extends Component {
     const lcSelectedType = e.target.value.toLowerCase();
     console.log(lcSelectedType)
     let pokemonsByType = results.filter(({ type }) => {
-    if(type[0] !== undefined && type[1] !== undefined) {
-      return (type[0].toLowerCase() === lcSelectedType || type[1].toLowerCase() === lcSelectedType)
-    }
-
-    else if(type.length === 1) return (type[0].toLowerCase() === lcSelectedType
-
-    );
+    return (type[0] !== undefined && type[1] !== undefined) ?
+    (type[0].toLowerCase() === lcSelectedType || type[1].toLowerCase() === lcSelectedType) :
+    (type[0].toLowerCase() === lcSelectedType)
   })
 
 
