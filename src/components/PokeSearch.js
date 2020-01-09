@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 import pokemons from 'pokemons';
 
+import PokeStatsDisplay from './PokeStatsDisplay'
 import PokeBallLoading from './PokeBallLoading'
+import PokeForm from './PokeForm'
+import PokeList from './PokeList'
 import ImageWithStatusText from './ImageWithStatusText';
+import Error from './Error';
+
+
 class PokeSearch extends Component {
   constructor(props) {
     super(props);
@@ -121,186 +127,23 @@ class PokeSearch extends Component {
       >
         <p>Poké-Search</p>
         {result ? (
-          <div>
-            <div
-              style={{
-                textAlign: 'center',
-              }}
-            >
-              <ImageWithStatusText imageUrl={result[0]['sprites'].animated} />
-            </div>
-
-            <table
-              style={{
-                textAlign: 'left',
-                margin: '10px',
-                fontSize: '.7rem',
-              }}
-            >
-              <tbody>
-                <tr>
-                  <th>Name</th>
-                  <td>#{result[0].name}</td>
-                </tr>
-                <tr>
-                  <th>No.</th>
-                  <td>#{result[0]['national_number']}</td>
-                </tr>
-                <tr>
-                  <th>Type</th>
-                  {result[0].type.map((t, index) => (
-                    <td key={index}>{t}</td>
-                  ))}
-                </tr>
-                <tr>
-                  <th>HP</th>
-                  <td>{result[0].hp}</td>
-                </tr>
-                <tr>
-                  <th>Attack</th>
-                  <td>{result[0].attack}</td>
-                </tr>
-                <tr>
-                  <th>Speed</th>
-                  <td>{result[0].speed}</td>
-                </tr>
-                <tr>
-                  <th>Defense</th>
-                  <td>{result[0].defense}</td>
-                </tr>
-                <tr>
-                  <th>Special Attack</th>
-                  <td>{result[0].sp_atk}</td>
-                </tr>
-                <tr>
-                  <th>Special Defense</th>
-                  <td>{result[0].sp_def}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <PokeStatsDisplay result={result} />
         ) : !pokemonsByType ? (
-          <PokeBallLoading/>
+          <PokeBallLoading />
         ) : ''}
         {error && (
-          <div
-            className='error'
-            style={{
-              textAlign: 'center',
-              margin: '2% 0',
-            }}
-          >
-            Pokemon does not exist.
-          </div>
+          <Error/>
         )}
-        <form>
-          <input
-            style={{
-              fontSize: '.75rem',
-              width: '100%',
-              textAlign: 'center',
-            }}
-            name='searchTerm'
-            placeholder='Search for a Pokémon!'
-            onClick={this.handleChange}
-          />
-          <button
-            style={{
-              width: '100%',
-              margin: '10px 0',
-              fontSize: '1.1rem',
-              textAlign: 'center',
-              display: 'block',
-            }}
-            value='Search'
-            onClick={this.searchByName}
-          >
-            Search
-          </button>
-          <button
-            style={{
-              width: '100%',
-              margin: '10px 0',
-              fontSize: '1.1rem',
-              textAlign: 'center',
-              display: 'block',
-            }}
-            value='Search'
-            onClick={this.getRandomPokemon}
-          >
-            Random
-          </button>
-          <label>Get Pokemons by type:</label>
-          <select
-            onChange={e => {
-              this.handleChange(e);
-              this.getPokemonsByType(e);
-            }}
-
-            name='selectedType'
-            style={{
-              width: '100%',
-              margin: '10px 0',
-              fontSize: '1.1rem',
-              display: 'block',
-            }}
-          >
-            {types.map((name, index) => (
-              <option key={index} value={name}>
-                {name}
-              </option>
-            ))}
-          </select>
-        </form>
+        <PokeForm
+          handleChange={this.handleChange}
+          searchByName={this.searchByName}
+          getRandomPokemon={this.getRandomPokemon}
+          getPokemonsByType={this.getPokemonsByType}
+          types={types}
+        />
         {pokemonsByType &&
           pokemonsByType.map((el, index) => (
-            <div key={index}>
-              <ImageWithStatusText imageUrl={el.sprites.normal} alt='pic' />
-              <table
-                style={{
-                  textAlign: 'left',
-                  fontSize: '.7rem',
-                }}
-              >
-                <tbody>
-                  <tr>
-                    <th>{el.name}</th>
-                  </tr>
-                  <tr>
-                    <th>No.</th>
-                    <td>#{el['national_number']}</td>
-                  </tr>
-                  <tr>
-                    <th>Type</th>
-                    <td>{el.type.map(type => `${type} `)}</td>
-                  </tr>
-                  <tr>
-                    <th>HP</th>
-                    <td>{el.hp}</td>
-                  </tr>
-                  <tr>
-                    <th>Attack</th>
-                    <td>{el.attack}</td>
-                  </tr>
-                  <tr>
-                    <th>Speed</th>
-                    <td>{el.speed}</td>
-                  </tr>
-                  <tr>
-                    <th>Defense</th>
-                    <td>{el.defense}</td>
-                  </tr>
-                  <tr>
-                    <th>Special Attack</th>
-                    <td>{el.sp_atk}</td>
-                  </tr>
-                  <tr>
-                    <th>Special Defense</th>
-                    <td>{el.sp_def}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <PokeList pokemon={el} index={index} />
           ))}
       </div>
     );
