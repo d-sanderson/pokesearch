@@ -1,7 +1,7 @@
 import React from 'react';
 
 const PokeForm = (props) => {
-  const { handleChange, searchByName, getRandomPokemon, getPokemonsByType, types } = props
+  const { handleChange, searchByName, getRandomPokemon, getPokemonsByType, types, value } = props
   return (
     <form>
       <input
@@ -10,6 +10,7 @@ const PokeForm = (props) => {
           width: '100%',
           textAlign: 'center',
         }}
+        value={value}
         name='searchTerm'
         placeholder='Search for a Pokémon!'
         onChange={handleChange}

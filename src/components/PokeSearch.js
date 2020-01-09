@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import pokemons from 'pokemons';
 
-import PokeStatsDisplay from './PokeStatsDisplay'
-import PokeBallLoading from './PokeBallLoading'
-import PokeForm from './PokeForm'
-import PokeList from './PokeList'
-import ImageWithStatusText from './ImageWithStatusText';
+import PokeStatsDisplay from './PokeStatsDisplay';
+import PokeBallLoading from './PokeBallLoading';
+import PokeForm from './PokeForm';
+import PokeList from './PokeList';
 import Error from './Error';
-
 
 class PokeSearch extends Component {
   constructor(props) {
@@ -38,7 +36,7 @@ class PokeSearch extends Component {
         'Fairy',
       ],
       pokemonsByType: null,
-      selectedType: ''
+      selectedType: '',
     };
   }
 
@@ -51,7 +49,7 @@ class PokeSearch extends Component {
 
   searchByName = e => {
     e.preventDefault();
-    let { searchTerm, results } = {...this.state};
+    let { searchTerm, results } = { ...this.state };
 
     let result = results.filter(
       ({ name }) => name.toLowerCase() === searchTerm.toLowerCase()
@@ -90,25 +88,24 @@ class PokeSearch extends Component {
     }
   };
 
-  getPokemonsByType = (e) => {
-    const { results } = {...this.state};
+  getPokemonsByType = e => {
+    const { results } = { ...this.state };
     const lcSelectedType = e.target.value.toLowerCase();
-    console.log(lcSelectedType)
+    console.log(lcSelectedType);
     let pokemonsByType = results.filter(({ type }) => {
-    return (type[0] !== undefined && type[1] !== undefined) ?
-    (type[0].toLowerCase() === lcSelectedType || type[1].toLowerCase() === lcSelectedType) :
-    (type[0].toLowerCase() === lcSelectedType)
-  })
-
+      return type[0] !== undefined && type[1] !== undefined
+        ? type[0].toLowerCase() === lcSelectedType ||
+            type[1].toLowerCase() === lcSelectedType
+        : type[0].toLowerCase() === lcSelectedType;
+    });
 
     if (pokemonsByType.length >= 1) {
       this.setState({
         pokemonsByType,
         error: false,
-        result: ''
+        result: '',
       });
     }
-
   };
   render() {
     const { result, error, types, pokemonsByType } = this.state;
@@ -122,7 +119,7 @@ class PokeSearch extends Component {
           justifyContent: 'center',
           alignItems: 'center',
           height: 'auto',
-          border: '2px solid black',
+          // border: '2px solid black',
           backgroundColor: 'rgb(65,65,65)',
         }}
       >
@@ -131,10 +128,10 @@ class PokeSearch extends Component {
           <PokeStatsDisplay result={result} />
         ) : !pokemonsByType ? (
           <PokeBallLoading />
-        ) : ''}
-        {error && (
-          <Error/>
+        ) : (
+          ''
         )}
+        {error && <Error />}
         <PokeForm
           handleChange={this.handleChange}
           searchByName={this.searchByName}
@@ -144,7 +141,7 @@ class PokeSearch extends Component {
         />
         {pokemonsByType &&
           pokemonsByType.map((el, index) => (
-            <PokeList pokemon={el} index={index} />
+            <PokeList pokemon={el} index={index} value={result} />
           ))}
       </div>
     );
