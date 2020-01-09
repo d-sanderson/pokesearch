@@ -4,3 +4,14 @@
 ::placeholder {
   color: black
 }
+
+.error {
+  color: crimson;
+  animation: error 1s infinite;
+  font-size: 2rem;
+}
+
+@keyframes error{
+  0%{color: white}
+  100%{color: red;}
+  }

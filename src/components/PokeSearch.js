@@ -51,9 +51,13 @@ class PokeSearch extends Component {
         let result = results.filter(
           ({ name }) => name.toLowerCase() === randomPokemon.toLowerCase()
         );
+        if(result) {
         this.setState({
           result,
+          error: false,
+          pokemonsByType: null
         });
+      }
 
   };
 
@@ -62,10 +66,12 @@ class PokeSearch extends Component {
     let pokemonsByType = results.filter(
       ({ type }) =>
         type[0].toLowerCase() === selectedType ||
-        (type[1] && type[1] === selectedType)
+        (type[0] && type[1] === selectedType)
     );
+    if(pokemonsByType.length > 1)
     this.setState({
       pokemonsByType,
+      error: false
     });
   };
   render() {
@@ -158,7 +164,14 @@ class PokeSearch extends Component {
             />
           </div>
         )}
-        {error && <div>Pokemon does not exist.</div>}
+        {error && <div
+        className = 'error'
+        style={{
+          textAlign: 'center',
+          margin: '2% 0'
+        }}
+        >Pokemon does not exist.
+        </div>}
         <form>
           <input
             style={{
