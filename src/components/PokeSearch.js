@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import pokemons from 'pokemons';
-import ImageWithStatusText from './ImageWithStatusText'
+import ImageWithStatusText from './ImageWithStatusText';
 class PokeSearch extends Component {
   constructor(props) {
     super(props);
@@ -9,8 +9,28 @@ class PokeSearch extends Component {
       searchTerm: '',
       result: '',
       error: false,
-      types: ['Normal', 'Fighting', 'Flying', 'Poison', 'Ground', 'Rock', 'Bug', 'Ghost', 'Steel', 'Fire', 'Grass', 'Water', 'Electric', 'Psychic', 'Ice', 'Dragon', 'Dark', 'Fairy'],
+      types: [
+        'Normal',
+        'Fighting',
+        'Flying',
+        'Poison',
+        'Ground',
+        'Rock',
+        'Bug',
+        'Ghost',
+        'Steel',
+        'Fire',
+        'Grass',
+        'Water',
+        'Electric',
+        'Psychic',
+        'Ice',
+        'Dragon',
+        'Dark',
+        'Fairy',
+      ],
       pokemonsByType: null,
+      selectedType: ''
     };
   }
 
@@ -44,35 +64,44 @@ class PokeSearch extends Component {
   getRandomPokemon = e => {
     e.preventDefault();
     let { results } = this.state;
-    const names = results.map(el => el.name)
+    const names = results.map(el => el.name);
     let randomNum = Math.floor(Math.random() * names.length);
 
-    let randomPokemon = names[randomNum]
-        let result = results.filter(
-          ({ name }) => name.toLowerCase() === randomPokemon.toLowerCase()
-        );
-        if(result) {
-        this.setState({
-          result,
-          error: false,
-          pokemonsByType: null
-        });
-      }
-
+    let randomPokemon = names[randomNum];
+    let result = results.filter(
+      ({ name }) => name.toLowerCase() === randomPokemon.toLowerCase()
+    );
+    if (result) {
+      this.setState({
+        result,
+        error: false,
+        pokemonsByType: null,
+      });
+    }
   };
 
   getPokemonsByType = () => {
-    let { results, selectedType } = this.state;
-    let pokemonsByType = results.filter(
-      ({ type }) =>
-        type[0].toLowerCase() === selectedType ||
-        (type[0] && type[1] === selectedType)
+    const { results, selectedType } = {...this.state};
+    const lcSelectedType = selectedType.toLowerCase();
+    let pokemonsByType = results.filter(({ type }) => {
+    if(type[0] !== undefined && type[1] !== undefined) {
+      return (type[0].toLowerCase() === lcSelectedType || type[1].toLowerCase() === lcSelectedType)
+    }
+
+    else if(type.length === 1) return (type[0].toLowerCase() === lcSelectedType
+
     );
-    if(pokemonsByType.length > 1)
-    this.setState({
-      pokemonsByType,
-      error: false
-    });
+  })
+
+
+    if (pokemonsByType.length >= 1) {
+      this.setState({
+        pokemonsByType,
+        error: false,
+        result: ''
+      });
+    }
+
   };
   render() {
     const { result, error, types, pokemonsByType } = this.state;
@@ -98,14 +127,14 @@ class PokeSearch extends Component {
                 textAlign: 'center',
               }}
             >
-              <ImageWithStatusText imageUrl={result[0]['sprites'].animated}/>
+              <ImageWithStatusText imageUrl={result[0]['sprites'].animated} />
             </div>
 
             <table
               style={{
                 textAlign: 'left',
                 margin: '10px',
-                fontSize: '.7rem'
+                fontSize: '.7rem',
               }}
             >
               <tbody>
@@ -164,20 +193,23 @@ class PokeSearch extends Component {
             />
           </div>
         )}
-        {error && <div
-        className = 'error'
-        style={{
-          textAlign: 'center',
-          margin: '2% 0'
-        }}
-        >Pokemon does not exist.
-        </div>}
+        {error && (
+          <div
+            className='error'
+            style={{
+              textAlign: 'center',
+              margin: '2% 0',
+            }}
+          >
+            Pokemon does not exist.
+          </div>
+        )}
         <form>
           <input
             style={{
               fontSize: '.75rem',
               width: '100%',
-              textAlign: 'center'
+              textAlign: 'center',
             }}
             name='searchTerm'
             placeholder='Search for a Pokémon!'
@@ -221,10 +253,9 @@ class PokeSearch extends Component {
               margin: '10px 0',
               fontSize: '1.1rem',
               display: 'block',
-
             }}
           >
-            {types.map(( name, index) => (
+            {types.map((name, index) => (
               <option key={index} value={name}>
                 {name}
               </option>
@@ -238,7 +269,7 @@ class PokeSearch extends Component {
               <table
                 style={{
                   textAlign: 'left',
-                  fontSize: '.7rem'
+                  fontSize: '.7rem',
                 }}
               >
                 <tbody>
@@ -248,6 +279,10 @@ class PokeSearch extends Component {
                   <tr>
                     <th>No.</th>
                     <td>#{el['national_number']}</td>
+                  </tr>
+                  <tr>
+                    <th>Type</th>
+                    <td>{el.type.map(type => `${type} `)}</td>
                   </tr>
                   <tr>
                     <th>HP</th>

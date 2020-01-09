@@ -31,12 +31,15 @@ class ImageWithStatusText extends React.Component {
           onError={this.handleImageErrored.bind(this)}
           alt='img'
         />
-        : <div>
+        : <div
+        style={{
+          textAlign: 'center'
+        }}>
           <img style={{
              borderRadius: '50px',
              height: '180px',
              width: '180px',
-             margin: '10px 0'
+             margin: '10px 0',
           }} src='https://media0.giphy.com/media/m6aZERsqxPiBa/giphy.gif?cid=790b76114ed6989bc2a98b52d46b213a75fc63689eb146b5&rid=giphy.gif' alt='lol'/>
           <h4>{imageStatus}</h4>
           </div>}
