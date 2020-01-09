@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import pokemons from 'pokemons';
+
+import PokeBallLoading from './PokeBallLoading'
 import ImageWithStatusText from './ImageWithStatusText';
 class PokeSearch extends Component {
   constructor(props) {
@@ -180,20 +182,9 @@ class PokeSearch extends Component {
               </tbody>
             </table>
           </div>
-        ) : (
-          <div
-            style={{
-              textAlign: 'center',
-            }}
-          >
-            <p>Learn about your favorite Pokemon</p>
-            <ImageWithStatusText
-              height='200px'
-              imageUrl='https://cdn.dribbble.com/users/815728/screenshots/4046362/ball.gif'
-              alt='loading'
-            />
-          </div>
-        )}
+        ) : !pokemonsByType ? (
+          <PokeBallLoading/>
+        ) : ''}
         {error && (
           <div
             className='error'
