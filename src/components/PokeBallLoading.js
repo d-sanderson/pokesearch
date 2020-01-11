@@ -1,12 +1,8 @@
-import React, { Component } from 'react';
-import ImageWithStatusText from './ImageWithStatusText'
-class Pokeball extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {  }
-  }
-  render() {
-    return (
+import React from 'react';
+import ImageWithStatusText from './ImageWithStatusText';
+
+const PokeballLoading = () => {
+  return (
     <div
       style={{
         textAlign: 'center',
@@ -18,8 +14,8 @@ class Pokeball extends Component {
         imageUrl='https://cdn.dribbble.com/users/815728/screenshots/4046362/ball.gif'
         alt='loading'
       />
-    </div> );
-  }
-}
+    </div>
+  );
+};
 
-export default Pokeball;
+export default PokeballLoading;
